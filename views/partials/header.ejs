@@ -1,15 +1,5 @@
 <a class="skip-link" href="#main-content">Skip to main content</a>
 
-<!-- <div class="opening-bar">
-  <p class="opening-bar__text">
-    <span aria-hidden="true"></span>
-    <strong>Open <%= openingTimes.days %>:</strong>
-    <time datetime="09:00"><%= openingTimes.open %></time>
-    &ndash;
-    <time datetime="18:00"><%= openingTimes.close %></time>
-  </p>
-</div> -->
-
 <header class="site-header">
   <div class="site-header__inner">
     <a class="site-logo" href="/">
@@ -24,7 +14,6 @@
             { href: '/', label: 'Home' },
             { href: '/zones', label: 'Zones' },
             { href: '/experiences', label: 'Experiences' },
-            { href: '/visit', label: 'Plan Your Visit' },
             { href: '/faq', label: 'FAQ' },
             { href: '/contact', label: 'Contact' }
           ];
@@ -42,3 +31,16 @@
     </nav>
   </div>
 </header>
+
+<div class="opening-bar is-spotlight" id="opening-bar">
+  <div class="opening-bar__inner">
+    <p class="opening-bar__text">
+      <strong>Open <%= openingTimes.days %></strong>
+      <span class="opening-bar__hours">
+        <time datetime="09:00"><%= openingTimes.open %></time>
+        &ndash;
+        <time datetime="18:00"><%= openingTimes.close %></time>
+      </span>
+    </p>
+  </div>
+</div>
