@@ -1,0 +1,38 @@
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__block">
+      <h2 class="site-footer__heading">Opening Times</h2>
+      <p class="site-footer__hours">
+        <strong><%= openingTimes.days %></strong><br>
+        <time datetime="09:00"><%= openingTimes.open %></time> &ndash;
+        <time datetime="18:00"><%= openingTimes.close %></time>
+      </p>
+      <p class="site-footer__note">Last entry 5:00pm. Open all year round.</p>
+    </div>
+
+    <div class="site-footer__block">
+      <h2 class="site-footer__heading">Explore</h2>
+      <ul class="site-footer__list">
+        <li><a href="/zones">Our Zones</a></li>
+        <li><a href="/experiences">Experiences</a></li>
+        <li><a href="/faq">FAQ</a></li>
+        <li><a href="/contact">Contact Us</a></li>
+      </ul>
+    </div>
+
+    <div class="site-footer__block">
+      <h2 class="site-footer__heading">Find Us</h2>
+      <address class="site-footer__address">
+        <%= siteName %><br>
+        12 Harbour Way<br>
+        Seaford, SF1 4QP<br>
+        <a href="tel:+441234567890">01234 567890</a>
+      </address>
+    </div>
+  </div>
+
+  <div class="site-footer__bar">
+    <p>&copy; <%= new Date().getFullYear() %> <%= siteName %>.</p>
+    <!-- <p><a href="/credits">Image credits &amp; attributions</a></p> -->
+  </div>
+</footer>
