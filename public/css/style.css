@@ -553,3 +553,55 @@ a:hover { color: var(--deep); }
 @media (max-width: 30em) {
   .experience__meta-row { grid-template-columns: 1fr; gap: 0; }
 }
+
+.filter {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-xl);
+  background: var(--sand);
+}
+
+.filter__heading { font-size: 1.05rem; margin-bottom: var(--space-md); }
+
+.filter__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.filter__button {
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  background: #fff;
+  color: var(--deep);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.5rem 1rem;
+}
+
+.filter__button:hover { border-color: var(--ocean); }
+
+.filter__button.is-active {
+  background: var(--deep);
+  border-color: var(--deep);
+  color: #fff;
+}
+
+.filter__status {
+  margin-top: var(--space-md);
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.experience-zone { margin-bottom: var(--space-xl); }
+
+.experience-zone__heading {
+  padding-bottom: var(--space-sm);
+  border-bottom: 3px solid var(--ocean);
+  margin-bottom: var(--space-lg);
+}
+
+.experience-zone__heading a { text-decoration: none; color: var(--deep); }
+.experience-zone__heading a:hover { text-decoration: underline; }

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head') %>
+</head>
+<body>
+  <%- include('../partials/header') %>
+
+  <main id="main-content">
+
+       <nav class="zone-back" aria-label="Breadcrumb">
+      <div class="page zone-back__inner">
+        <a class="zone-back__link" href="/zones">
+          <span class="zone-back__arrow" aria-hidden="true">&larr;</span>
+          All zones
+        </a>
+        <ol class="breadcrumb__list">
+          <li><a href="/">Home</a></li>
+          <li><a href="/zones">Zones</a></li>
+          <li><span aria-current="page"><%= zone.name %></span></li>
+        </ol>
+      </div>
+    </nav>
+
+    <header class="zone-hero zone-card--<%= zone.slug %>">
+      <div class="page zone-hero__inner">
+        <p class="zone-hero__eyebrow"><%= zone.tagline %></p>
+        <h1><%= zone.name %></h1>
+      </div>
+    </header>
+
+    <div class="page zone-detail">
+
+      <div class="zone-detail__main">
+        <h2 class="visually-hidden">About this zone</h2>
+        <p class="zone-detail__lead"><%= zone.description %></p>
+
+        <section class="conservation-note" aria-labelledby="conservation-note-heading">
+          <h2 id="conservation-note-heading" class="conservation-note__heading">Our conservation work here</h2>
+          <p><%= zone.conservation %></p>
+        </section>
+      </div>
+
+      <section class="experiences" aria-labelledby="experiences-heading">
+        <h2 id="experiences-heading">What you can do in this zone</h2>
+
+        <ul class="experience-list">
+          <% experiences.forEach(experience => { %>
+            <li class="experience">
+              <div class="experience__header">
+                <h3 class="experience__name"><%= experience.name %></h3>
+                <p class="experience__type"><%= experience.type %></p>
+              </div>
+
+              <p class="experience__description"><%= experience.description %></p>
+
+              <dl class="experience__meta">
+                <% if (experience.duration) { %>
+                  <div class="experience__meta-row">
+                    <dt>Timing</dt>
+                    <dd><%= experience.duration %></dd>
+                  </div>
+                <% } %>
+                <% if (experience.accessibility) { %>
+                  <div class="experience__meta-row">
+                    <dt>Access</dt>
+                    <dd><%= experience.accessibility %></dd>
+                  </div>
+                <% } %>
+                <% if (experience.sensory_note) { %>
+                  <div class="experience__meta-row">
+                    <dt>What to expect</dt>
+                    <dd><%= experience.sensory_note %></dd>
+                  </div>
+                <% } %>
+              </dl>
+            </li>
+          <% }) %>
+        </ul>
+      </section>
+
+    </div>
+
+  </main>
+
+  <%- include('../partials/footer') %>
+</body>
+</html>

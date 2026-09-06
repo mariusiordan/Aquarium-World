@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head') %>
+</head>
+<body>
+  <%- include('../partials/header') %>
+
+  <main id="main-content" class="page">
+    <h1>Our zones</h1>
+    <p class="section-lead">
+      The aquarium is arranged as four habitats. Each one recreates the conditions of a
+      real place as closely as we can manage water temperature, lighting, salinity
+      and, in the rockpools, a working tidal cycle. Choose a zone to see what lives there
+      and what you can do.
+    </p>
+
+    <ul class="zone-list">
+      <% zones.forEach(zone => { %>
+        <li class="zone-list__item zone-card--<%= zone.slug %>">
+          <div class="zone-list__media" role="presentation"></div>
+          <div class="zone-list__body">
+            <h2 class="zone-list__title">
+              <a href="/zones/<%= zone.slug %>"><%= zone.name %></a>
+            </h2>
+            <p class="zone-list__tagline"><%= zone.tagline %></p>
+            <p class="zone-list__description"><%= zone.description %></p>
+          </div>
+        </li>
+      <% }) %>
+    </ul>
+  </main>
+
+  <%- include('../partials/footer') %>
+</body>
+</html>
