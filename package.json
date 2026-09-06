@@ -21,7 +21,8 @@
   "homepage": "https://github.com/mariusiordan/Aquarium-World#readme",
   "dependencies": {
     "ejs": "^6.0.1",
-    "express": "^4.22.2"
+    "express": "^5.2.1",
+    "sqlite3": "^6.0.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"

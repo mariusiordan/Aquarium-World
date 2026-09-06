@@ -1,6 +1,7 @@
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { initialiseDatabase } from './db/database.mjs';
 
 // ES modules do not provide __dirname, so it is reconstructed from import.meta.url
 const __filename = fileURLToPath(import.meta.url);
@@ -37,6 +38,12 @@ app.use((req, res) => {
   });
 });
 
-app.listen(PORT, () => {
+await initialiseDatabase();
+
+const server = app.listen(PORT, () => {
   console.log(`Blue Harbour Aquarium running at http://localhost:${PORT}`);
+});
+
+server.on('error', (err) => {
+  console.error('Failed to start server:', err.code, err.message);
 });
