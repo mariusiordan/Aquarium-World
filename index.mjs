@@ -1,7 +1,7 @@
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { initialiseDatabase } from './db/database.mjs';
+import { initialiseDatabase, getAllZones } from './db/database.mjs';
 
 // ES modules do not provide __dirname, so it is reconstructed from import.meta.url
 const __filename = fileURLToPath(import.meta.url);
@@ -24,17 +24,31 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/', (req, res) => {
-  res.render('pages/home', {
-    pageTitle: 'Home',
-    pageDescription: 'Explore four themed marine zones at Blue Harbour Aquarium, open every day from 9am to 6pm.'
-  });
+app.get('/', async (req, res, next) => {
+  try {
+    const zones = await getAllZones();
+    res.render('pages/home', {
+      pageTitle: 'Home',
+      pageDescription: 'Explore four themed marine zones at Blue Harbour Aquarium, open every day from 9am to 6pm.',
+      zones
+    });
+  } catch (err) {
+    next(err);
+  }
 });
 
 app.use((req, res) => {
   res.status(404).render('pages/404', {
     pageTitle: 'Page not found',
     pageDescription: 'The page you were looking for could not be found.'
+  });
+});
+
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).render('pages/500', {
+    pageTitle: 'Something went wrong',
+    pageDescription: 'An unexpected error occurred.'
   });
 });
 

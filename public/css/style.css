@@ -218,3 +218,133 @@ a:hover { color: var(--deep); }
   font-size: 0.9rem;
 }
 .site-footer__bar p { margin-bottom: 0.35rem; }
+
+.hero {
+  background: linear-gradient(160deg, var(--deep) 0%, #0a4a5c 55%, var(--ocean) 100%);
+  color: #fff;
+}
+
+.hero__inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: clamp(3rem, 9vw, 6rem) var(--space-md);
+}
+
+.hero__eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.85rem;
+  color: #9fd3dd;
+  margin-bottom: var(--space-md);
+}
+
+.hero__heading {
+  color: #fff;
+  max-width: 16ch;
+  margin-bottom: var(--space-lg);
+}
+
+.hero__lead {
+  max-width: 56ch;
+  font-size: clamp(1.05rem, 2.2vw, 1.25rem);
+  color: #dceef2;
+  margin-bottom: var(--space-lg);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.btn--secondary {
+  background: transparent;
+  color: #fff;
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,0.65);
+}
+.btn--secondary:hover {
+  background: rgba(255,255,255,0.12);
+  box-shadow: inset 0 0 0 2px #fff;
+}
+
+.sensory .btn--secondary {
+  color: var(--deep);
+  box-shadow: inset 0 0 0 2px var(--ocean);
+}
+.sensory .btn--secondary:hover {
+  background: var(--ocean);
+  color: #fff;
+}
+
+.section-lead {
+  max-width: 62ch;
+  font-size: 1.1rem;
+  color: var(--muted);
+  margin-top: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.zone-grid {
+  display: grid;
+  gap: var(--space-lg);
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.zone-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.zone-card__media {
+  aspect-ratio: 4 / 3;
+  background: linear-gradient(140deg, var(--ocean), var(--deep));
+}
+.zone-card--coral-reef .zone-card__media { background: linear-gradient(140deg, #f28e4b, #c2410c); }
+.zone-card--deep-sea .zone-card__media { background: linear-gradient(140deg, #123a5c, #04121f); }
+.zone-card--rockpools .zone-card__media { background: linear-gradient(140deg, #5b8c7b, #21403a); }
+.zone-card--rivers-rainforest .zone-card__media { background: linear-gradient(140deg, #4f8f45, #1d3d20); }
+
+.zone-card__body { padding: var(--space-md); }
+
+.zone-card__title { margin-bottom: 0.35rem; }
+.zone-card__title a {
+  text-decoration: none;
+  color: var(--deep);
+}
+.zone-card__title a:hover { text-decoration: underline; }
+
+.zone-card__title a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+.zone-card { position: relative; }
+
+.zone-card__tagline { color: var(--muted); }
+
+.conservation { background: var(--sand); }
+
+.fact-list {
+  display: grid;
+  gap: var(--space-lg);
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+}
+
+.fact {
+  border-top: 4px solid var(--ocean);
+  padding-top: var(--space-md);
+}
+
+.fact__figure {
+  font-size: clamp(2.25rem, 5vw, 3rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--deep);
+  margin-bottom: var(--space-sm);
+}
+
+.fact__label { color: var(--muted); }

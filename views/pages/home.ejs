@@ -7,8 +7,86 @@
   <%- include('../partials/header') %>
 
   <main id="main-content">
-    <h1>Welcome to <%= siteName %></h1>
-    <p>Homepage</p>
+
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="hero__inner">
+        <p class="hero__eyebrow">Seaford, East Sussex</p>
+        <h1 id="hero-heading" class="hero__heading">Four habitats.<br>One coastline.</h1>
+        <p class="hero__lead">
+          From a sunlit coral reef to a trench where daylight never reaches, Blue Harbour
+          brings four marine worlds together under one roof and works to protect
+          the real ones beyond our doors.
+        </p>
+        <p class="hero__actions">
+          <a class="btn" href="/zones">Explore the zones</a>
+          <a class="btn btn--secondary" href="/experiences">See what&rsquo;s on today</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="zones-intro" aria-labelledby="zones-heading">
+      <div class="page">
+        <h2 id="zones-heading">Our zones</h2>
+        <p class="section-lead">
+          Each zone recreates a habitat as closely as we can manage, down to water
+          temperature, lighting and the rhythm of the tide.
+        </p>
+
+        <ul class="zone-grid">
+          <% zones.forEach(zone => { %>
+            <li class="zone-card zone-card--<%= zone.slug %>">
+              <div class="zone-card__media" role="presentation"></div>
+              <div class="zone-card__body">
+                <h3 class="zone-card__title">
+                  <a href="/zones/<%= zone.slug %>"><%= zone.name %></a>
+                </h3>
+                <p class="zone-card__tagline"><%= zone.tagline %></p>
+              </div>
+            </li>
+          <% }) %>
+        </ul>
+      </div>
+    </section>
+
+    <section class="conservation" aria-labelledby="conservation-heading">
+      <div class="page">
+        <h2 id="conservation-heading">Why we do this</h2>
+        <p class="section-lead">
+          An aquarium earns its place by doing more than displaying animals. Most of ours
+          were bred in human care rather than taken from the wild, and the work we do here
+          feeds directly into conservation beyond the building.
+        </p>
+
+        <ul class="fact-list">
+          <li class="fact">
+            <p class="fact__figure">180+</p>
+            <p class="fact__label">coral fragments grown in our propagation lab and shared with reef restoration projects each year</p>
+          </li>
+          <li class="fact">
+            <p class="fact__figure">3</p>
+            <p class="fact__label">endangered freshwater species we breed as part of a European conservation programme</p>
+          </li>
+          <li class="fact">
+            <p class="fact__figure">12</p>
+            <p class="fact__label">beach cleans run with local volunteers each year, with findings recorded for the Marine Conservation Society</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="sensory" aria-labelledby="sensory-heading">
+      <div class="page">
+        <h2 id="sensory-heading">Planning a quieter visit</h2>
+        <p class="section-lead">
+          Aquariums can be loud, bright and crowded. Every Tuesday from 9am to 11am we run a
+          sensory-friendly session with reduced lighting, no public announcements and lower
+          background sound. Each zone page also lists what to expect underfoot, overhead and
+          in the air, so you can decide what suits you before you arrive.
+        </p>
+        <p><a class="btn btn--secondary" href="/faq">Read our accessibility FAQ</a></p>
+      </div>
+    </section>
+
   </main>
 
   <%- include('../partials/footer') %>
