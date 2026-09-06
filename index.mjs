@@ -6,7 +6,8 @@ import {
   getAllZones,
   getZoneBySlug,
   getExperiencesByZoneId,
-  getAllExperiences
+  getAllExperiences,
+  getFaqsByCategory
 } from './db/database.mjs';
 
 // ES modules do not provide __dirname, so it is reconstructed from import.meta.url
@@ -89,6 +90,19 @@ app.get('/experiences', async (req, res, next) => {
       pageTitle: 'Experiences',
       pageDescription: 'Tank exhibits, hands-on activities and daily talks across all four zones at Blue Harbour Aquarium.',
       byZone
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.get('/faq', async (req, res, next) => {
+  try {
+    const faqs = await getFaqsByCategory();
+    res.render('pages/faq', {
+      pageTitle: 'Frequently asked questions',
+      pageDescription: 'Opening times, accessibility, animal care and facilities at Blue Harbour Aquarium.',
+      faqs
     });
   } catch (err) {
     next(err);

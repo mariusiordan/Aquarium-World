@@ -40,3 +40,19 @@
     });
   });
 })();
+
+(function () {
+  'use strict';
+
+  var toggle = document.querySelector('[data-faq-expand]');
+  if (!toggle) return;
+
+  var items = document.querySelectorAll('.faq-item');
+  var allOpen = false;
+
+  toggle.addEventListener('click', function () {
+    allOpen = !allOpen;
+    items.forEach(function (item) { item.open = allOpen; });
+    toggle.textContent = allOpen ? 'Close all answers' : 'Open all answers';
+  });
+})();

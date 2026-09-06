@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head') %>
+</head>
+<body>
+  <%- include('../partials/header') %>
+
+  <main id="main-content" class="page">
+    <h1>Frequently asked questions</h1>
+    <p class="section-lead">
+      The questions we are asked most often, grouped by topic. If what you need
+      isn&rsquo;t here, <a href="/contact">send us a message</a> and we will answer
+      within two working days.
+    </p>
+
+    <nav class="faq-jump" aria-labelledby="faq-jump-heading">
+      <h2 id="faq-jump-heading" class="faq-jump__heading">Jump to a section</h2>
+      <ul class="faq-jump__list">
+        <% Object.keys(faqs).forEach(category => { %>
+          <li>
+            <a href="#faq-<%= category.toLowerCase().replace(/\s+/g, '-') %>">
+              <%= category %>
+            </a>
+          </li>
+        <% }) %>
+      </ul>
+    </nav>
+
+    <div class="faq-controls">
+      <button type="button" class="filter__button" data-faq-expand>Open all answers</button>
+    </div>
+
+    <% Object.entries(faqs).forEach(([category, questions]) => { %>
+      <%
+        const categoryId = 'faq-' + category.toLowerCase().replace(/\s+/g, '-');
+      %>
+        <section class="faq-section" aria-labelledby="<%= categoryId %>">
+        <h2 id="<%= categoryId %>-heading" class="faq-section__heading" tabindex="-1">
+          <%= category %>
+        </h2>
+
+        <ul class="faq-list">
+          <% questions.forEach(faq => { %>
+            <li>
+              <details class="faq-item">
+                <summary class="faq-item__question">
+                  <span class="faq-item__question-text"><%= faq.question %></span>
+                  <span class="faq-item__marker" aria-hidden="true"></span>
+                </summary>
+                <div class="faq-item__answer">
+                  <p><%= faq.answer %></p>
+                </div>
+              </details>
+            </li>
+          <% }) %>
+        </ul>
+      </section>
+    <% }) %>
+
+    <aside class="faq-cta" aria-labelledby="faq-cta-heading">
+      <h2 id="faq-cta-heading">Still have a question?</h2>
+      <p>
+        If you need information that isn&rsquo;t covered here, particularly about
+        access requirements for your visit, please get in touch. We would rather
+        answer in advance than have you arrive unsure.
+      </p>
+      <p><a class="btn" href="/contact">Contact us</a></p>
+    </aside>
+
+  </main>
+
+  <%- include('../partials/footer') %>
+</body>
+</html>
