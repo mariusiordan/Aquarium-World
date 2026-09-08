@@ -194,6 +194,19 @@ app.post('/contact', async (req, res, next) => {
   }
 });
 
+app.get('/credits', async (req, res, next) => {
+  try {
+    const zones = await getAllZones();
+    res.render('pages/credits', {
+      pageTitle: 'Image credits',
+      pageDescription: 'Photography credits and licensing information for images used on this website.',
+      zones
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
 app.use((req, res) => {
   res.status(404).render('pages/404', {
     pageTitle: 'Page not found',

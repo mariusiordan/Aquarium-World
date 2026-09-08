@@ -800,3 +800,49 @@ a:hover { color: var(--deep); }
 }
 
 .contact-alt h2 { font-size: 1.15rem; margin-bottom: var(--space-sm); }
+
+.hero, .zone-hero { position: relative; overflow: hidden; }
+
+.hero__image, .zone-hero__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.35;
+}
+
+.hero__inner, .zone-hero__inner { position: relative; }
+
+.zone-card__media, .zone-list__media {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.zone-list__media { border-radius: var(--radius); }
+
+.credit-list { display: grid; gap: var(--space-lg); margin-top: var(--space-lg); }
+
+.credit {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: var(--space-lg);
+  align-items: center;
+}
+
+@media (max-width: 30em) {
+  .credit { grid-template-columns: 1fr; }
+}
+
+.credit__thumb {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+
+.credit__usage { font-weight: 600; color: var(--deep); }
+.credit__source { color: var(--muted); }

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head') %>
+</head>
+<body>
+  <%- include('../partials/header') %>
+
+  <main id="main-content" class="page">
+    <h1>Image credits</h1>
+    <p class="section-lead">
+      Blue Harbour Aquarium is a fictional organisation created for an academic
+      project. It has no premises and no photography of its own, so every image
+      on this site is stock photography used under the terms of its licence.
+      Credit is given below even where the licence does not require it.
+    </p>
+
+    <section aria-labelledby="licence-heading">
+      <h2 id="licence-heading">Licensing</h2>
+      <p>
+        All photographs are sourced from <a href="https://www.pexels.com">Pexels</a>
+        and used under the Pexels licence, which permits free use for commercial and
+        non-commercial purposes without attribution. Attribution is provided here
+        regardless, as crediting the photographer is a reasonable courtesy even when
+        it is not a legal requirement.
+      </p>
+      <p>
+        No images have been used that depict identifiable people, and none have been
+        taken from another aquarium&rsquo;s website or marketing material.
+      </p>
+    </section>
+
+    <section aria-labelledby="photographs-heading">
+      <h2 id="photographs-heading">Photographs</h2>
+      <ul class="credit-list">
+        <% zones.forEach(zone => { %>
+          <li class="credit">
+            <img class="credit__thumb"
+                 src="/images/<%= zone.image_file %>"
+                 alt=""
+                 loading="lazy"
+                 width="160" height="120">
+            <div>
+              <p class="credit__usage"><%= zone.name %></p>
+              <p class="credit__source"><%= zone.image_credit %></p>
+            </div>
+          </li>
+        <% }) %>
+        <li class="credit">
+          <img class="credit__thumb" src="/images/hero.jpg" alt=""
+               loading="lazy" width="160" height="120">
+          <div>
+            <p class="credit__usage">Homepage banner</p>
+            <p class="credit__source">Photo from Pexels</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="content-heading">
+      <h2 id="content-heading">Written content</h2>
+      <p>
+        All written content on this site is original and was written for this project.
+        Conservation figures and programme descriptions are illustrative examples for a
+        fictional organisation, not claims about any real aquarium.
+      </p>
+    </section>
+
+  </main>
+
+  <%- include('../partials/footer') %>
+</body>
+</html>

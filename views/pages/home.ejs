@@ -8,7 +8,8 @@
 
   <main id="main-content">
 
-    <section class="hero" aria-labelledby="hero-heading">
+       <section class="hero" aria-labelledby="hero-heading">
+      <img class="hero__image" src="/images/hero.jpg" alt="">
       <div class="hero__inner">
         <p class="hero__eyebrow">Seaford, East Sussex</p>
         <h1 id="hero-heading" class="hero__heading">Four habitats.<br>One coastline.</h1>
@@ -34,8 +35,12 @@
 
         <ul class="zone-grid">
           <% zones.forEach(zone => { %>
-            <li class="zone-card zone-card--<%= zone.slug %>">
-              <div class="zone-card__media" role="presentation"></div>
+            <li class="zone-card">
+              <img class="zone-card__media"
+                   src="/images/<%= zone.image_file %>"
+                   alt="<%= zone.image_alt %>"
+                   loading="lazy"
+                   width="800" height="600">
               <div class="zone-card__body">
                 <h3 class="zone-card__title">
                   <a href="/zones/<%= zone.slug %>"><%= zone.name %></a>
