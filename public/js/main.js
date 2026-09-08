@@ -63,3 +63,95 @@
   var summary = document.getElementById('error-summary');
   if (summary) summary.focus();
 })();
+
+/**
+ * Client-side validation for the contact form.
+ */
+(function () {
+  'use strict';
+
+  var form = document.querySelector('.form');
+  if (!form) return;
+
+  var rules = {
+    name: function (value) {
+      if (!value.trim()) return 'Enter your name.';
+      if (value.length > 100) return 'Your name must be 100 characters or fewer.';
+      return null;
+    },
+    email: function (value) {
+      if (!value.trim()) return 'Enter your email address.';
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())) {
+        return 'Enter an email address in the correct format, like name@example.com';
+      }
+      return null;
+    },
+    subject: function (value) {
+      if (!value) return 'Choose a subject from the list.';
+      return null;
+    },
+    message: function (value) {
+      if (!value.trim()) return 'Enter your message.';
+      if (value.trim().length < 10) return 'Your message must be at least 10 characters.';
+      return null;
+    }
+  };
+
+  function clearError(field) {
+    var group = field.closest('.form__group');
+    var existing = group.querySelector('.form__error');
+    if (existing) existing.remove();
+    group.classList.remove('has-error');
+    field.removeAttribute('aria-invalid');
+  }
+
+  function showError(field, message) {
+    var group = field.closest('.form__group');
+    clearError(field);
+
+    var error = document.createElement('p');
+    error.className = 'form__error';
+    error.id = field.id + '-error';
+    error.innerHTML = '<span class="visually-hidden">Error:</span> ' + message;
+
+    field.parentNode.insertBefore(error, field);
+    group.classList.add('has-error');
+    field.setAttribute('aria-invalid', 'true');
+  }
+
+  function validateField(field) {
+    var rule = rules[field.name];
+    if (!rule) return true;
+
+    var error = rule(field.value);
+    if (error) {
+      showError(field, error);
+      return false;
+    }
+    clearError(field);
+    return true;
+  }
+  
+  Object.keys(rules).forEach(function (name) {
+    var field = form.elements[name];
+    if (field) {
+      field.addEventListener('blur', function () { validateField(field); });
+    }
+  });
+
+  form.addEventListener('submit', function (event) {
+    var firstInvalid = null;
+
+    Object.keys(rules).forEach(function (name) {
+      var field = form.elements[name];
+      if (field && !validateField(field) && !firstInvalid) {
+        firstInvalid = field;
+      }
+    });
+
+    if (firstInvalid) {
+      event.preventDefault();
+      firstInvalid.focus();
+    }
+  });
+})();
