@@ -7,10 +7,10 @@ import {
   getZoneBySlug,
   getExperiencesByZoneId,
   getAllExperiences,
-  getFaqsByCategory
+  getFaqsByCategory,
+  saveEnquiry
 } from './db/database.mjs';
 
-// ES modules do not provide __dirname, so it is reconstructed from import.meta.url
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -79,8 +79,6 @@ app.get('/zones/:slug', async (req, res, next) => {
 app.get('/experiences', async (req, res, next) => {
   try {
     const experiences = await getAllExperiences();
-
-    // Group by zone so the page mirrors the structure of the aquarium itself
     const byZone = experiences.reduce((groups, item) => {
       (groups[item.zone_name] ||= { slug: item.zone_slug, items: [] }).items.push(item);
       return groups;
@@ -109,6 +107,93 @@ app.get('/faq', async (req, res, next) => {
   }
 });
 
+function validateEnquiry(body) {
+  const errors = {};
+
+  const name = (body.name || '').trim();
+  const email = (body.email || '').trim();
+  const subject = (body.subject || '').trim();
+  const message = (body.message || '').trim();
+
+  if (name.length === 0) {
+    errors.name = 'Enter your name.';
+  } else if (name.length > 100) {
+    errors.name = 'Your name must be 100 characters or fewer.';
+  }
+
+  if (email.length === 0) {
+    errors.email = 'Enter your email address.';
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    errors.email = 'Enter an email address in the correct format, like name@example.com';
+  } else if (email.length > 254) {
+    errors.email = 'Your email address is too long.';
+  }
+
+  const allowedSubjects = ['General enquiry', 'Accessibility', 'School visit', 'Animal care', 'Feedback'];
+  if (!allowedSubjects.includes(subject)) {
+    errors.subject = 'Choose a subject from the list.';
+  }
+
+  if (message.length === 0) {
+    errors.message = 'Enter your message.';
+  } else if (message.length < 10) {
+    errors.message = 'Your message must be at least 10 characters.';
+  } else if (message.length > 2000) {
+    errors.message = 'Your message must be 2000 characters or fewer.';
+  }
+
+  return { errors, values: { name, email, subject, message } };
+}
+
+app.get('/contact', (req, res) => {
+  res.render('pages/contact', {
+    pageTitle: 'Contact us',
+    pageDescription: 'Get in touch with Blue Harbour Aquarium about access requirements, school visits or general enquiries.',
+    errors: {},
+    values: { name: '', email: '', subject: '', message: '' },
+    submitted: false
+  });
+});
+
+app.post('/contact', async (req, res, next) => {
+  try {
+  
+    if (req.body.website) {
+      return res.render('pages/contact', {
+        pageTitle: 'Message sent',
+        pageDescription: 'Thank you for contacting Blue Harbour Aquarium.',
+        errors: {},
+        values: { name: '', email: '', subject: '', message: '' },
+        submitted: true
+      });
+    }
+
+    const { errors, values } = validateEnquiry(req.body);
+
+    if (Object.keys(errors).length > 0) {
+      return res.status(400).render('pages/contact', {
+        pageTitle: 'Contact us',
+        pageDescription: 'Get in touch with Blue Harbour Aquarium.',
+        errors,
+        values,
+        submitted: false
+      });
+    }
+
+    await saveEnquiry(values);
+
+    res.render('pages/contact', {
+      pageTitle: 'Message sent',
+      pageDescription: 'Thank you for contacting Blue Harbour Aquarium.',
+      errors: {},
+      values: { name: '', email: '', subject: '', message: '' },
+      submitted: true
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
 app.use((req, res) => {
   res.status(404).render('pages/404', {
     pageTitle: 'Page not found',
@@ -123,6 +208,7 @@ app.use((err, req, res, next) => {
     pageDescription: 'An unexpected error occurred.'
   });
 });
+
 
 await initialiseDatabase();
 

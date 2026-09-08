@@ -56,3 +56,10 @@
     toggle.textContent = allOpen ? 'Close all answers' : 'Open all answers';
   });
 })();
+
+(function () {
+  'use strict';
+
+  var summary = document.getElementById('error-summary');
+  if (summary) summary.focus();
+})();

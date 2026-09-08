@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head') %>
+</head>
+<body>
+  <%- include('../partials/header') %>
+
+  <main id="main-content" class="page">
+
+    <% if (submitted) { %>
+
+      <div class="confirmation" role="status">
+        <h1>Thank you, your message has been sent</h1>
+        <p>
+          We aim to reply within two working days. If your enquiry is about access
+          requirements for a visit, we will do our best to respond sooner.
+        </p>
+        <p><a class="btn" href="/">Return to the homepage</a></p>
+      </div>
+
+    <% } else { %>
+
+      <h1>Contact us</h1>
+      <p class="section-lead">
+        Use this form to ask us anything, access requirements, school visits,
+        questions about the animals, or feedback on your visit. We reply within two
+        working days. Our opening hours and location are in the
+        <a href="/faq">FAQ</a>.
+      </p>
+
+      <% if (Object.keys(errors).length > 0) { %>
+        <div class="error-summary" role="alert" tabindex="-1" id="error-summary">
+          <h2 class="error-summary__heading">There is a problem</h2>
+          <ul class="error-summary__list">
+            <% Object.entries(errors).forEach(([field, message]) => { %>
+              <li><a href="#<%= field %>"><%= message %></a></li>
+            <% }) %>
+          </ul>
+        </div>
+      <% } %>
+
+      <form class="form" method="post" action="/contact" novalidate>
+
+        <div class="form__group<%= errors.name ? ' has-error' : '' %>">
+          <label class="form__label" for="name">Your name</label>
+          <% if (errors.name) { %>
+            <p class="form__error" id="name-error">
+              <span class="visually-hidden">Error:</span> <%= errors.name %>
+            </p>
+          <% } %>
+          <input
+            class="form__input"
+            type="text"
+            id="name"
+            name="name"
+            value="<%= values.name %>"
+            autocomplete="name"
+            maxlength="100"
+            required
+            <%= errors.name ? 'aria-invalid="true" aria-describedby="name-error"' : '' %>>
+        </div>
+
+        <div class="form__group<%= errors.email ? ' has-error' : '' %>">
+          <label class="form__label" for="email">Email address</label>
+          <p class="form__hint" id="email-hint">We will only use this to reply to your message.</p>
+          <% if (errors.email) { %>
+            <p class="form__error" id="email-error">
+              <span class="visually-hidden">Error:</span> <%= errors.email %>
+            </p>
+          <% } %>
+          <input
+            class="form__input"
+            type="email"
+            id="email"
+            name="email"
+            value="<%= values.email %>"
+            autocomplete="email"
+            maxlength="254"
+            required
+            aria-describedby="email-hint<%= errors.email ? ' email-error' : '' %>"
+            <%= errors.email ? 'aria-invalid="true"' : '' %>>
+        </div>
+
+        <div class="form__group<%= errors.subject ? ' has-error' : '' %>">
+          <label class="form__label" for="subject">What is your message about?</label>
+          <% if (errors.subject) { %>
+            <p class="form__error" id="subject-error">
+              <span class="visually-hidden">Error:</span> <%= errors.subject %>
+            </p>
+          <% } %>
+          <select
+            class="form__select"
+            id="subject"
+            name="subject"
+            required
+            <%= errors.subject ? 'aria-invalid="true" aria-describedby="subject-error"' : '' %>>
+            <option value="">Choose a subject</option>
+            <% ['General enquiry', 'Accessibility', 'School visit', 'Animal care', 'Feedback'].forEach(option => { %>
+              <option value="<%= option %>" <%= values.subject === option ? 'selected' : '' %>><%= option %></option>
+            <% }) %>
+          </select>
+        </div>
+
+        <div class="form__group<%= errors.message ? ' has-error' : '' %>">
+          <label class="form__label" for="message">Your message</label>
+          <p class="form__hint" id="message-hint">Up to 2000 characters.</p>
+          <% if (errors.message) { %>
+            <p class="form__error" id="message-error">
+              <span class="visually-hidden">Error:</span> <%= errors.message %>
+            </p>
+          <% } %>
+          <textarea
+            class="form__textarea"
+            id="message"
+            name="message"
+            rows="8"
+            maxlength="2000"
+            required
+            aria-describedby="message-hint<%= errors.message ? ' message-error' : '' %>"
+            <%= errors.message ? 'aria-invalid="true"' : '' %>><%= values.message %></textarea>
+        </div>
+
+        <div class="form__honeypot" aria-hidden="true">
+          <label for="website">Leave this field blank</label>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+        </div>
+
+        <button class="btn" type="submit">Send message</button>
+      </form>
+
+      <aside class="contact-alt" aria-labelledby="contact-alt-heading">
+        <h2 id="contact-alt-heading">Other ways to reach us</h2>
+        <p>
+          If you would rather speak to someone, call <a href="tel:+441234567890">01234 567890</a>
+          between 9am and 6pm, or write to us at Blue Harbour Aquarium, 12 Harbour Way,
+          Seaford, SF1 4QP.
+        </p>
+      </aside>
+
+    <% } %>
+
+  </main>
+
+  <%- include('../partials/footer') %>
+</body>
+</html>
