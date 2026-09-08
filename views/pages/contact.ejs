@@ -58,7 +58,7 @@
             autocomplete="name"
             maxlength="100"
             required
-            <%= errors.name ? 'aria-invalid="true" aria-describedby="name-error"' : '' %>>
+            <% if (errors.name) { %>aria-invalid="true" aria-describedby="name-error"<% } %>>
         </div>
 
         <div class="form__group<%= errors.email ? ' has-error' : '' %>">
@@ -79,7 +79,7 @@
             maxlength="254"
             required
             aria-describedby="email-hint<%= errors.email ? ' email-error' : '' %>"
-            <%= errors.email ? 'aria-invalid="true"' : '' %>>
+            <% if (errors.email) { %>aria-invalid="true"<% } %>>
         </div>
 
         <div class="form__group<%= errors.subject ? ' has-error' : '' %>">
@@ -94,7 +94,7 @@
             id="subject"
             name="subject"
             required
-            <%= errors.subject ? 'aria-invalid="true" aria-describedby="subject-error"' : '' %>>
+                <% if (errors.subject) { %>aria-invalid="true" aria-describedby="subject-error"<% } %>>
             <option value="">Choose a subject</option>
             <% ['General enquiry', 'Accessibility', 'School visit', 'Animal care', 'Feedback'].forEach(option => { %>
               <option value="<%= option %>" <%= values.subject === option ? 'selected' : '' %>><%= option %></option>
@@ -118,7 +118,7 @@
             maxlength="2000"
             required
             aria-describedby="message-hint<%= errors.message ? ' message-error' : '' %>"
-            <%= errors.message ? 'aria-invalid="true"' : '' %>><%= values.message %></textarea>
+             <% if (errors.message) { %>aria-invalid="true"<% } %>><%= values.message %></textarea>
         </div>
 
         <div class="form__honeypot" aria-hidden="true">
