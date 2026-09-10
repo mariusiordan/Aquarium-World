@@ -207,6 +207,13 @@ app.get('/credits', async (req, res, next) => {
   }
 });
 
+app.get('/rockpool-explorer', (req, res) => {
+  res.render('pages/rockpool-explorer', {
+    pageTitle: 'Rockpool Explorer',
+    pageDescription: 'Lift the rocks and discover which creatures shelter in a British rockpool at low tide.'
+  });
+});
+
 app.use((req, res) => {
   res.status(404).render('pages/404', {
     pageTitle: 'Page not found',

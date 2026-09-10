@@ -846,3 +846,121 @@ a:hover { color: var(--deep); }
 
 .credit__usage { font-weight: 600; color: var(--deep); }
 .credit__source { color: var(--muted); }
+
+.rockpool { margin-bottom: var(--space-xl); }
+
+.rockpool__bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-md);
+}
+
+.rockpool__score { font-size: 1.15rem; }
+.rockpool__score strong { color: var(--deep); }
+
+.rockpool__status {
+  min-height: 1.6rem;
+  color: var(--ocean);
+  font-weight: 600;
+  margin-bottom: var(--space-md);
+}
+
+.rockpool__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-md);
+  background: linear-gradient(160deg, #5b8c7b, #21403a);
+  padding: var(--space-lg);
+  border-radius: var(--radius);
+}
+
+.rock {
+  font: inherit;
+  cursor: pointer;
+  aspect-ratio: 1;
+  border: none;
+  padding: 0;
+  background: none;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+}
+
+.rock__reveal {
+  position: absolute;
+  inset: 0;
+  background: #f4f7f2;
+  border: 3px solid var(--ocean);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  color: var(--deep);
+  font-weight: 600;
+}
+
+.rock__cover {
+  position: absolute;
+  inset: 0;
+  border: 3px solid #7a6a55;
+  border-radius: 45% 55% 50% 50% / 55% 45% 55% 45%;
+  background: linear-gradient(150deg, #9c8d78, #6d6153);
+  color: #fff;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 450ms ease, opacity 450ms ease;
+}
+
+.rock:hover .rock__cover { transform: translate(6%, -4%) rotate(4deg); }
+
+.rock.is-lifted { cursor: default; }
+
+.rock.is-lifted .rock__cover {
+  transform: translate(75%, -55%) rotate(28deg);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.rockpool__bar .filter__button {
+  background: var(--deep);
+  color: #fff;
+  border-color: var(--deep);
+}
+
+.rockpool__bar .filter__button:hover {
+  background: var(--ocean);
+  border-color: var(--ocean);
+}
+
+/* Secondary buttons on light backgrounds need a dark outline instead of
+   the white one used over the hero image */
+.sensory .btn--secondary,
+.rockpool__note .btn--secondary,
+.zone-nav .btn--secondary {
+  color: var(--deep);
+  box-shadow: inset 0 0 0 2px var(--ocean);
+}
+.sensory .btn--secondary:hover,
+.rockpool__note .btn--secondary:hover,
+.zone-nav .btn--secondary:hover {
+  background: var(--ocean);
+  color: #fff;
+}
+
+.rock__creature { font-size: 2.25rem; line-height: 1; }
+.rock__name { font-size: 0.9rem; text-align: center; padding: 0 0.25rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rock__cover { transition: none; }
+  .rock:hover .rock__cover { transform: none; }
+}
+@media (max-width: 40em) {
+  .rockpool__grid { grid-template-columns: repeat(2, 1fr); }
+}
