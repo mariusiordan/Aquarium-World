@@ -10,16 +10,29 @@
     <h1>Rockpool Explorer</h1>
     <p class="section-lead">
       When the tide goes out, the animals of the shore hide from the sun under rocks and
-      seaweed. Lift each rock to find out who is sheltering underneath, there are eight
-      creatures to find, can you find them all?
+      seaweed. Lift each rock to find out who is sheltering underneath. How many you can
+      find depends on the tide, come back at a different time of day and the pool
+      will have changed.
     </p>
 
     <div class="rockpool" data-rockpool>
+
+      <div class="tide" data-tide>
+        <p class="tide__label">
+          <span class="tide__dot" aria-hidden="true"></span>
+          <strong data-tide-label></strong>
+        </p>
+        <p class="tide__note" data-tide-note></p>
+      </div>
+
       <div class="rockpool__bar">
         <p class="rockpool__score">
           Found <strong data-found-count>0</strong> of <strong data-total-count>8</strong>
         </p>
-        <button type="button" class="filter__button" data-rockpool-reset>Start again</button>
+        <div class="rockpool__actions">
+          <button type="button" class="filter__button" data-tide-cycle>See another tide</button>
+          <button type="button" class="filter__button" data-rockpool-reset>Start again</button>
+        </div>
       </div>
 
       <p class="rockpool__status" role="status" data-rockpool-status></p>
@@ -32,6 +45,7 @@
         <h2>What you have found</h2>
         <ul class="rockpool__list" data-rockpool-list></ul>
       </div>
+
     </div>
 
     <aside class="rockpool__note">
