@@ -8,7 +8,8 @@ import {
   getExperiencesByZoneId,
   getAllExperiences,
   getFaqsByCategory,
-  saveEnquiry
+  saveEnquiry,
+  searchExperiences
 } from './db/database.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -212,6 +213,32 @@ app.get('/rockpool-explorer', (req, res) => {
     pageTitle: 'Rockpool Explorer',
     pageDescription: 'Lift the rocks and discover which creatures shelter in a British rockpool at low tide.'
   });
+});
+
+app.get('/api/experiences', async (req, res, next) => {
+  try {
+    const term = (req.query.q || '').trim().slice(0, 100);
+    const type = (req.query.type || 'all').trim();
+    const zone = (req.query.zone || 'all').trim();
+
+    const results = await searchExperiences(term, type, zone);
+
+    res.json({
+      count: results.length,
+      results: results.map(item => ({
+        name: item.name,
+        type: item.type,
+        description: item.description,
+        duration: item.duration,
+        accessibility: item.accessibility,
+        sensory_note: item.sensory_note,
+        zone_name: item.zone_name,
+        zone_slug: item.zone_slug
+      }))
+    });
+  } catch (err) {
+    next(err);
+  }
 });
 
 app.use((req, res) => {

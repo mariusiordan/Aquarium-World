@@ -89,3 +89,28 @@ export function saveEnquiry({ name, email, subject, message }) {
 }
 
 export default db;
+
+export function searchExperiences(term, type, zone) {
+  var sql = `
+    SELECT experiences.*, zones.name AS zone_name, zones.slug AS zone_slug
+    FROM experiences
+    JOIN zones ON zones.id = experiences.zone_id
+    WHERE (experiences.name LIKE ? OR experiences.description LIKE ? OR zones.name LIKE ?)
+  `;
+  const pattern = `%${term}%`;
+  const params = [pattern, pattern, pattern];
+
+  if (type && type !== 'all') {
+    sql += ' AND experiences.type = ?';
+    params.push(type);
+  }
+
+  if (zone && zone !== 'all') {
+    sql += ' AND zones.slug = ?';
+    params.push(zone);
+  }
+
+  sql += ' ORDER BY zones.display_order, experiences.id';
+
+  return all(sql, params);
+}

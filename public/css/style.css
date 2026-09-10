@@ -1001,3 +1001,24 @@ a:hover { color: var(--deep); }
 .tide[data-tide-state="high"] .tide__dot { background: #123a5c; }
 
 .tide__note { color: var(--muted); }
+
+.filter__search { margin-bottom: var(--space-lg); }
+
+.filter__empty {
+  padding: var(--space-lg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--muted);
+}
+
+.link-button {
+  font: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--ocean);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.link-button:hover { color: var(--deep); }

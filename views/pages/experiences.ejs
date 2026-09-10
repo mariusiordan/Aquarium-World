@@ -9,12 +9,27 @@
   <main id="main-content" class="page">
     <h1>Experiences</h1>
     <p class="section-lead">
-      Alongside the tanks themselves, each zone has activities you can take part in -
+      Alongside the tanks themselves, each zone has activities you can take part in, including
       hands-on stations, working models and talks given by the team who care for the animals.
       Talks run at fixed times; everything else is open throughout the day.
     </p>
 
     <div class="filter" data-filter>
+      <div class="filter__search">
+        <label class="form__label" for="experience-search">Search experiences</label>
+        <p class="form__hint" id="search-hint">
+          Search by name, description or zone. Results update as you type.
+        </p>
+        <input
+          class="form__input"
+          type="search"
+          id="experience-search"
+          name="q"
+          data-search-input
+          aria-describedby="search-hint"
+          autocomplete="off">
+      </div>
+
       <h2 class="filter__heading" id="filter-heading">Filter by type</h2>
       <div class="filter__controls" role="group" aria-labelledby="filter-heading">
         <button type="button" class="filter__button is-active" data-filter-value="all" aria-pressed="true">All</button>
@@ -23,50 +38,61 @@
         <button type="button" class="filter__button" data-filter-value="Hands-on" aria-pressed="false">Hands-on</button>
         <button type="button" class="filter__button" data-filter-value="Talk" aria-pressed="false">Talks</button>
       </div>
+            <h2 class="filter__heading" id="zone-filter-heading">Filter by zone</h2>
+      <div class="filter__controls" role="group" aria-labelledby="zone-filter-heading">
+        <button type="button" class="filter__button is-active" data-zone-value="all" aria-pressed="true">All zones</button>
+        <% Object.entries(byZone).forEach(([zoneName, zone]) => { %>
+          <button type="button" class="filter__button" data-zone-value="<%= zone.slug %>" aria-pressed="false"><%= zoneName %></button>
+        <% }) %>
+      </div>
       <p class="filter__status" role="status" data-filter-status></p>
     </div>
 
-    <% Object.entries(byZone).forEach(([zoneName, zone]) => { %>
-      <section class="experience-zone" aria-labelledby="zone-<%= zone.slug %>" data-zone-section>
-        <h2 id="zone-<%= zone.slug %>" class="experience-zone__heading">
-          <a href="/zones/<%= zone.slug %>"><%= zoneName %></a>
-        </h2>
+    <div data-results-container></div>
 
-        <ul class="experience-list">
-          <% zone.items.forEach(experience => { %>
-            <li class="experience" data-type="<%= experience.type %>">
-              <div class="experience__header">
-                <h3 class="experience__name"><%= experience.name %></h3>
-                <p class="experience__type"><%= experience.type %></p>
-              </div>
+    <div data-initial-content>
+      <% Object.entries(byZone).forEach(([zoneName, zone]) => { %>
+        <section class="experience-zone" aria-labelledby="zone-<%= zone.slug %>">
+          <h2 id="zone-<%= zone.slug %>" class="experience-zone__heading">
+            <a href="/zones/<%= zone.slug %>"><%= zoneName %></a>
+          </h2>
 
-              <p class="experience__description"><%= experience.description %></p>
+          <ul class="experience-list">
+            <% zone.items.forEach(experience => { %>
+              <li class="experience">
+                <div class="experience__header">
+                  <h3 class="experience__name"><%= experience.name %></h3>
+                  <p class="experience__type"><%= experience.type %></p>
+                </div>
 
-              <dl class="experience__meta">
-                <% if (experience.duration) { %>
-                  <div class="experience__meta-row">
-                    <dt>Timing</dt>
-                    <dd><%= experience.duration %></dd>
-                  </div>
-                <% } %>
-                <% if (experience.accessibility) { %>
-                  <div class="experience__meta-row">
-                    <dt>Access</dt>
-                    <dd><%= experience.accessibility %></dd>
-                  </div>
-                <% } %>
-                <% if (experience.sensory_note) { %>
-                  <div class="experience__meta-row">
-                    <dt>What to expect</dt>
-                    <dd><%= experience.sensory_note %></dd>
-                  </div>
-                <% } %>
-              </dl>
-            </li>
-          <% }) %>
-        </ul>
-      </section>
-    <% }) %>
+                <p class="experience__description"><%= experience.description %></p>
+
+                <dl class="experience__meta">
+                  <% if (experience.duration) { %>
+                    <div class="experience__meta-row">
+                      <dt>Timing</dt>
+                      <dd><%= experience.duration %></dd>
+                    </div>
+                  <% } %>
+                  <% if (experience.accessibility) { %>
+                    <div class="experience__meta-row">
+                      <dt>Access</dt>
+                      <dd><%= experience.accessibility %></dd>
+                    </div>
+                  <% } %>
+                  <% if (experience.sensory_note) { %>
+                    <div class="experience__meta-row">
+                      <dt>What to expect</dt>
+                      <dd><%= experience.sensory_note %></dd>
+                    </div>
+                  <% } %>
+                </dl>
+              </li>
+            <% }) %>
+          </ul>
+        </section>
+      <% }) %>
+    </div>
 
   </main>
 
