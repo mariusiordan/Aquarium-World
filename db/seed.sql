@@ -11,7 +11,7 @@ INSERT INTO zones (slug, name, tagline, description, conservation, image_file, i
  'Reefs worldwide have declined sharply as ocean temperatures rise. Our propagation lab grows coral fragments that are shared with other aquariums and with reef restoration projects, reducing the need to collect from the wild.',
  'coral-reef.jpg',
  'A shoal of small orange and blue fish moving over a shallow coral reef',
- 'Photo by Francesco Ungaro on Pexels',
+ 'Photo by Jeffry Surianto from Pexels',
  1),
 
 ('deep-sea',
@@ -21,7 +21,7 @@ INSERT INTO zones (slug, name, tagline, description, conservation, image_file, i
  'Deep sea habitats are increasingly threatened by seabed trawling and proposed mining for metal nodules. We contribute specimen data to a national deep water monitoring programme.',
  'deep-sea.jpg',
  'A pale jellyfish drifting in near-total darkness',
- 'Photo by Nick Bondarev on Pexels',
+ 'Photo by Lexi Lauwers from Pexels',
  2),
 
 ('rockpools',
@@ -31,7 +31,7 @@ INSERT INTO zones (slug, name, tagline, description, conservation, image_file, i
  'Rockpool species are among the first affected by coastal pollution and plastic waste. We run monthly beach cleans with local volunteers and record our findings for the Marine Conservation Society.',
  'rockpools.jpg',
  'A shallow rockpool between dark rocks, with seaweed visible below the surface',
- 'Photo by Kris Mikael Krister on Pexels',
+ 'Photo by Raul Ling from Pexels',
  3),
 
 ('rivers-rainforest',
@@ -41,7 +41,7 @@ INSERT INTO zones (slug, name, tagline, description, conservation, image_file, i
  'Freshwater fish are the most threatened vertebrate group on earth, largely through habitat loss. We take part in a European breeding programme for three endangered river species.',
  'rivers-rainforest.jpg',
  'Dense green rainforest vegetation overhanging a slow-moving river',
- 'Photo by Tom Fisk on Pexels',
+ 'Photo by Aaron Buitenwerf from Pexels',
  4);
 
 INSERT INTO experiences (zone_id, name, type, description, duration, accessibility, sensory_note) VALUES
