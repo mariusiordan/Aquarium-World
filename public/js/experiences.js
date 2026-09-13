@@ -1,20 +1,25 @@
+/**
+ * Experiences search and filter, backed by AJAX.
+ */
 (function () {
   'use strict';
 
-  var container = document.querySelector('[data-filter]');
+  const container = document.querySelector('[data-filter]');
   if (!container) return;
 
-  var input = container.querySelector('[data-search-input]');
-  var buttons = container.querySelectorAll('[data-filter-value]');
-  var zoneButtons = container.querySelectorAll('[data-zone-value]');
-  var status = container.querySelector('[data-filter-status]');
-  var results = document.querySelector('[data-results-container]');
-  var initial = document.querySelector('[data-initial-content]');
+  const input = container.querySelector('[data-search-input]');
+  const buttons = container.querySelectorAll('[data-filter-value]');
+  const zoneButtons = container.querySelectorAll('[data-zone-value]');
+  const status = container.querySelector('[data-filter-status]');
+  const results = document.querySelector('[data-results-container]');
+  const initial = document.querySelector('[data-initial-content]');
 
-  var activeType = 'all';
-  var activeZone = 'all';
-  var debounceTimer = null;
-  var requestId = 0;
+  const DEBOUNCE_MS = 300;
+
+  let activeType = 'all';
+  let activeZone = 'all';
+  let debounceTimer = null;
+  let requestId = 0;
 
   function escapeHtml(value) {
     if (value === null || value === undefined) return '';
@@ -27,16 +32,22 @@
 
   function metaRow(label, value) {
     if (!value) return '';
-    return '<div class="experience__meta-row"><dt>' + label + '</dt><dd>' +
-      escapeHtml(value) + '</dd></div>';
+    return `<div class="experience__meta-row"><dt>${label}</dt><dd>${escapeHtml(value)}</dd></div>`;
   }
 
   function setActiveButton(group, value, attribute) {
-    group.forEach(function (button) {
-      var isActive = button.dataset[attribute] === value;
+    group.forEach((button) => {
+      const isActive = button.dataset[attribute] === value;
       button.classList.toggle('is-active', isActive);
       button.setAttribute('aria-pressed', String(isActive));
     });
+  }
+
+  function resetFilters() {
+    activeType = 'all';
+    activeZone = 'all';
+    setActiveButton(buttons, 'all', 'filterValue');
+    setActiveButton(zoneButtons, 'all', 'zoneValue');
   }
 
   function render(data) {
@@ -47,32 +58,33 @@
       return;
     }
 
-    var groups = {};
-    data.results.forEach(function (item) {
+    const groups = {};
+    data.results.forEach((item) => {
       (groups[item.zone_name] ||= { slug: item.zone_slug, items: [] }).items.push(item);
     });
 
-    var html = '';
-    Object.keys(groups).forEach(function (zoneName) {
-      var zone = groups[zoneName];
-      html += '<section class="experience-zone">' +
-        '<h2 class="experience-zone__heading">' +
-          '<a href="/zones/' + escapeHtml(zone.slug) + '">' + escapeHtml(zoneName) + '</a>' +
-        '</h2><ul class="experience-list">';
+    let html = '';
+    Object.keys(groups).forEach((zoneName) => {
+      const zone = groups[zoneName];
+      html += `<section class="experience-zone">
+        <h2 class="experience-zone__heading">
+          <a href="/zones/${escapeHtml(zone.slug)}">${escapeHtml(zoneName)}</a>
+        </h2>
+        <ul class="experience-list">`;
 
-      zone.items.forEach(function (item) {
-        html += '<li class="experience">' +
-          '<div class="experience__header">' +
-            '<h3 class="experience__name">' + escapeHtml(item.name) + '</h3>' +
-            '<p class="experience__type">' + escapeHtml(item.type) + '</p>' +
-          '</div>' +
-          '<p class="experience__description">' + escapeHtml(item.description) + '</p>' +
-          '<dl class="experience__meta">' +
-            metaRow('Timing', item.duration) +
-            metaRow('Access', item.accessibility) +
-            metaRow('What to expect', item.sensory_note) +
-          '</dl>' +
-        '</li>';
+      zone.items.forEach((item) => {
+        html += `<li class="experience">
+          <div class="experience__header">
+            <h3 class="experience__name">${escapeHtml(item.name)}</h3>
+            <p class="experience__type">${escapeHtml(item.type)}</p>
+          </div>
+          <p class="experience__description">${escapeHtml(item.description)}</p>
+          <dl class="experience__meta">
+            ${metaRow('Timing', item.duration)}
+            ${metaRow('Access', item.accessibility)}
+            ${metaRow('What to expect', item.sensory_note)}
+          </dl>
+        </li>`;
       });
 
       html += '</ul></section>';
@@ -82,22 +94,21 @@
   }
 
   function fetchResults() {
-    var term = input.value.trim();
-    var id = ++requestId;
+    const term = input.value.trim();
+    const id = ++requestId;
 
-    var url = '/api/experiences?q=' + encodeURIComponent(term) +
-              '&type=' + encodeURIComponent(activeType) +
-              '&zone=' + encodeURIComponent(activeZone);
+    const url = `/api/experiences?q=${encodeURIComponent(term)}` +
+                `&type=${encodeURIComponent(activeType)}` +
+                `&zone=${encodeURIComponent(activeZone)}`;
 
     status.textContent = 'Searching…';
 
     fetch(url)
-      .then(function (response) {
+      .then((response) => {
         if (!response.ok) throw new Error('Request failed');
         return response.json();
       })
-      .then(function (data) {
-        // Ignore a response that has been superseded by a newer request
+      .then((data) => {
         if (id !== requestId) return;
 
         initial.hidden = true;
@@ -105,29 +116,27 @@
 
         status.textContent = data.count === 0
           ? 'No experiences found.'
-          : 'Showing ' + data.count + (data.count === 1 ? ' experience.' : ' experiences.');
+          : `Showing ${data.count}${data.count === 1 ? ' experience.' : ' experiences.'}`;
       })
-      .catch(function () {
+      .catch(() => {
         if (id !== requestId) return;
+
         status.textContent = 'Sorry, the search is unavailable. The full list is shown below.';
         results.innerHTML = '';
         initial.hidden = false;
       });
   }
 
-  input.addEventListener('input', function () {
+  input.addEventListener('input', () => {
     window.clearTimeout(debounceTimer);
 
-    activeType = 'all';
-    activeZone = 'all';
-    setActiveButton(buttons, 'all', 'filterValue');
-    setActiveButton(zoneButtons, 'all', 'zoneValue');
+    resetFilters();
 
-    debounceTimer = window.setTimeout(fetchResults, 300);
+    debounceTimer = window.setTimeout(fetchResults, DEBOUNCE_MS);
   });
 
-  buttons.forEach(function (button) {
-    button.addEventListener('click', function () {
+  buttons.forEach((button) => {
+    button.addEventListener('click', () => {
       activeType = button.dataset.filterValue;
       activeZone = 'all';
 
@@ -138,8 +147,8 @@
     });
   });
 
-  zoneButtons.forEach(function (button) {
-    button.addEventListener('click', function () {
+  zoneButtons.forEach((button) => {
+    button.addEventListener('click', () => {
       activeZone = button.dataset.zoneValue;
       activeType = 'all';
 
@@ -150,13 +159,10 @@
     });
   });
 
-  results.addEventListener('click', function (event) {
+  results.addEventListener('click', (event) => {
     if (event.target.matches('[data-clear-search]')) {
       input.value = '';
-      activeType = 'all';
-      activeZone = 'all';
-      setActiveButton(buttons, 'all', 'filterValue');
-      setActiveButton(zoneButtons, 'all', 'zoneValue');
+      resetFilters();
       fetchResults();
       input.focus();
     }

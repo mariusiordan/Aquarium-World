@@ -16,6 +16,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+
+// Defaults to 5000 as required by the brief. The environment variable allows a
+// local override, since macOS occupies port 5000 with its AirPlay Receiver.
 const PORT = process.env.PORT || 5000;
 
 app.set('view engine', 'ejs');
@@ -60,8 +63,12 @@ app.get('/zones', async (req, res, next) => {
 
 app.get('/zones/:slug', async (req, res, next) => {
   try {
+    // The slug comes from the URL and is user-controlled. It is passed to the
+    // query as a bound parameter, never concatenated into the SQL string, so
+    // it cannot alter the structure of the query.
     const zone = await getZoneBySlug(req.params.slug);
-
+    // An unknown slug is a missing page, not an error: fall through to the
+    // 404 handler rather than rendering an empty zone.
     if (!zone) return next();
 
     const experiences = await getExperiencesByZoneId(zone.id);
@@ -108,6 +115,14 @@ app.get('/faq', async (req, res, next) => {
   }
 });
 
+/**
+ * Validates a contact form submission.
+ *
+ * Validation runs on the server because client-side checks can be bypassed by
+ * disabling JavaScript or posting directly to the endpoint. The HTML5
+ * attributes on the form are a convenience for the user, not a security
+ * control.
+ */
 function validateEnquiry(body) {
   const errors = {};
 
@@ -130,6 +145,9 @@ function validateEnquiry(body) {
     errors.email = 'Your email address is too long.';
   }
 
+  // The subject is checked against an allowlist rather than screened for
+  // dangerous characters. An allowlist accepts only known-good values, so it
+  // cannot be defeated by an encoding a blocklist did not anticipate.
   const allowedSubjects = ['General enquiry', 'Accessibility', 'School visit', 'Animal care', 'Feedback'];
   if (!allowedSubjects.includes(subject)) {
     errors.subject = 'Choose a subject from the list.';
@@ -158,7 +176,9 @@ app.get('/contact', (req, res) => {
 
 app.post('/contact', async (req, res, next) => {
   try {
-  
+    // Honeypot: a field hidden from users but visible to automated scripts.
+    // A filled value indicates a bot, so the request is accepted silently
+    // rather than rejected, giving the sender no signal to adapt to.
     if (req.body.website) {
       return res.render('pages/contact', {
         pageTitle: 'Message sent',
@@ -215,12 +235,20 @@ app.get('/rockpool-explorer', (req, res) => {
   });
 });
 
+/**
+ * JSON endpoint backing the experiences search.
+ *
+ * Returns data rather than markup, so the client decides how to render it.
+ * All three parameters come from the query string and are user-controlled:
+ * they are passed to the database as bound parameters and never concatenated
+ * into SQL.
+ */
+
 app.get('/api/experiences', async (req, res, next) => {
   try {
     const term = (req.query.q || '').trim().slice(0, 100);
     const type = (req.query.type || 'all').trim();
     const zone = (req.query.zone || 'all').trim();
-
     const results = await searchExperiences(term, type, zone);
 
     res.json({
@@ -240,14 +268,17 @@ app.get('/api/experiences', async (req, res, next) => {
     next(err);
   }
 });
-
+// Registered after all routes: Express runs middleware in the order it is
+// declared, so a catch-all placed earlier would make every route below it
+// unreachable.
 app.use((req, res) => {
   res.status(404).render('pages/404', {
     pageTitle: 'Page not found',
     pageDescription: 'The page you were looking for could not be found.'
   });
 });
-
+// Error handler. Express identifies this by its four parameters, so `next`
+// must stay in the signature even though it is not called here.
 app.use((err, req, res, next) => {
   console.error(err);
   res.status(500).render('pages/500', {
@@ -256,7 +287,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-
+// The database must be ready before the server accepts requests
 await initialiseDatabase();
 
 const server = app.listen(PORT, () => {

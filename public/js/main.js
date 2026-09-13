@@ -1,12 +1,12 @@
 (function () {
   'use strict';
 
-  var SPOTLIGHT_DURATION = 5000;
-  var bar = document.getElementById('opening-bar');
+  const SPOTLIGHT_DURATION = 5000;
+  const bar = document.getElementById('opening-bar');
 
   if (!bar) return;
 
-  window.setTimeout(function () {
+  window.setTimeout(() => {
     bar.classList.remove('is-spotlight');
   }, SPOTLIGHT_DURATION);
 })();
@@ -17,15 +17,15 @@
 (function () {
   'use strict';
 
-  var toggle = document.querySelector('[data-faq-expand]');
+  const toggle = document.querySelector('[data-faq-expand]');
   if (!toggle) return;
 
-  var items = document.querySelectorAll('.faq-item');
-  var allOpen = false;
+  const items = document.querySelectorAll('.faq-item');
+  let allOpen = false;
 
-  toggle.addEventListener('click', function () {
+  toggle.addEventListener('click', () => {
     allOpen = !allOpen;
-    items.forEach(function (item) { item.open = allOpen; });
+    items.forEach((item) => { item.open = allOpen; });
     toggle.textContent = allOpen ? 'Close all answers' : 'Open all answers';
   });
 })();
@@ -36,7 +36,7 @@
 (function () {
   'use strict';
 
-  var summary = document.getElementById('error-summary');
+  const summary = document.getElementById('error-summary');
   if (summary) summary.focus();
 })();
 
@@ -46,27 +46,27 @@
 (function () {
   'use strict';
 
-  var form = document.querySelector('.form');
+  const form = document.querySelector('.form');
   if (!form) return;
 
-  var rules = {
-    name: function (value) {
+  const rules = {
+    name: (value) => {
       if (!value.trim()) return 'Enter your name.';
       if (value.length > 100) return 'Your name must be 100 characters or fewer.';
       return null;
     },
-    email: function (value) {
+    email: (value) => {
       if (!value.trim()) return 'Enter your email address.';
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())) {
         return 'Enter an email address in the correct format, like name@example.com';
       }
       return null;
     },
-    subject: function (value) {
+    subject: (value) => {
       if (!value) return 'Choose a subject from the list.';
       return null;
     },
-    message: function (value) {
+    message: (value) => {
       if (!value.trim()) return 'Enter your message.';
       if (value.trim().length < 10) return 'Your message must be at least 10 characters.';
       return null;
@@ -74,21 +74,21 @@
   };
 
   function clearError(field) {
-    var group = field.closest('.form__group');
-    var existing = group.querySelector('.form__error');
+    const group = field.closest('.form__group');
+    const existing = group.querySelector('.form__error');
     if (existing) existing.remove();
     group.classList.remove('has-error');
     field.removeAttribute('aria-invalid');
   }
 
   function showError(field, message) {
-    var group = field.closest('.form__group');
+    const group = field.closest('.form__group');
     clearError(field);
 
-    var error = document.createElement('p');
+    const error = document.createElement('p');
     error.className = 'form__error';
-    error.id = field.id + '-error';
-    error.innerHTML = '<span class="visually-hidden">Error:</span> ' + message;
+    error.id = `${field.id}-error`;
+    error.innerHTML = `<span class="visually-hidden">Error:</span> ${message}`;
 
     field.parentNode.insertBefore(error, field);
     group.classList.add('has-error');
@@ -96,10 +96,10 @@
   }
 
   function validateField(field) {
-    var rule = rules[field.name];
+    const rule = rules[field.name];
     if (!rule) return true;
 
-    var error = rule(field.value);
+    const error = rule(field.value);
     if (error) {
       showError(field, error);
       return false;
@@ -108,18 +108,18 @@
     return true;
   }
 
-  Object.keys(rules).forEach(function (name) {
-    var field = form.elements[name];
+  Object.keys(rules).forEach((name) => {
+    const field = form.elements[name];
     if (field) {
-      field.addEventListener('blur', function () { validateField(field); });
+      field.addEventListener('blur', () => validateField(field));
     }
   });
 
-  form.addEventListener('submit', function (event) {
-    var firstInvalid = null;
+  form.addEventListener('submit', (event) => {
+    let firstInvalid = null;
 
-    Object.keys(rules).forEach(function (name) {
-      var field = form.elements[name];
+    Object.keys(rules).forEach((name) => {
+      const field = form.elements[name];
       if (field && !validateField(field) && !firstInvalid) {
         firstInvalid = field;
       }
