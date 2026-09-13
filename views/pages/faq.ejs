@@ -10,7 +10,7 @@
     <h1>Frequently asked questions</h1>
     <p class="section-lead">
       The questions we are asked most often, grouped by topic. If what you need
-      isn&rsquo;t here, <a href="/contact">send us a message</a> and we will answer
+      isn't here, <a href="/contact">send us a message</a> and we will answer
       within two working days.
     </p>
 
@@ -33,7 +33,7 @@
 
     <% Object.entries(faqs).forEach(([category, questions]) => { %>
       <%
-        const categoryId = 'faq-' + category.toLowerCase().replace(/\s+/g, '-');
+        const categoryId = `faq-${category.toLowerCase().replace(/\s+/g, '-')}`;
       %>
         <section class="faq-section" aria-labelledby="<%= categoryId %>">
         <h2 id="<%= categoryId %>" class="faq-section__heading" tabindex="-1">
@@ -61,7 +61,7 @@
     <aside class="faq-cta" aria-labelledby="faq-cta-heading">
       <h2 id="faq-cta-heading">Still have a question?</h2>
       <p>
-        If you need information that isn&rsquo;t covered here, particularly about
+        If you need information that isn't covered here, particularly about
         access requirements for your visit, please get in touch. We would rather
         answer in advance than have you arrive unsure.
       </p>
