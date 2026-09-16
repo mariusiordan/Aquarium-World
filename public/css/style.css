@@ -1035,3 +1035,12 @@ a:hover { color: var(--deep); }
 @media (prefers-reduced-motion: reduce) {
   .filter__groups { transition: none; }
 }
+
+.faq-item__category {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ocean);
+  font-weight: 600;
+  margin-bottom: var(--space-sm);
+}

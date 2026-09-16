@@ -114,3 +114,15 @@ export function searchExperiences(term, type, zone) {
 
   return all(sql, params);
 }
+
+/**
+ * Searches FAQs by question or answer text.
+ */
+export function searchFaqs(term) {
+  return all(
+    `SELECT * FROM faqs
+     WHERE question LIKE ? OR answer LIKE ?
+     ORDER BY display_order`,
+    [`%${term}%`, `%${term}%`]
+  );
+}

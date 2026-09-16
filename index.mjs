@@ -8,6 +8,7 @@ import {
   getExperiencesByZoneId,
   getAllExperiences,
   getFaqsByCategory,
+  searchFaqs,
   saveEnquiry,
   searchExperiences
 } from './db/database.mjs';
@@ -96,6 +97,27 @@ app.get('/experiences', async (req, res, next) => {
       pageTitle: 'Experiences',
       pageDescription: 'Tank exhibits, hands-on activities and daily talks across all four zones at Blue Harbour Aquarium.',
       byZone
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * JSON endpoint backing the FAQ search.
+ */
+app.get('/api/faqs', async (req, res, next) => {
+  try {
+    const term = (req.query.q || '').trim().slice(0, 100);
+    const results = await searchFaqs(term);
+
+    res.json({
+      count: results.length,
+      results: results.map((faq) => ({
+        category: faq.category,
+        question: faq.question,
+        answer: faq.answer
+      }))
     });
   } catch (err) {
     next(err);
