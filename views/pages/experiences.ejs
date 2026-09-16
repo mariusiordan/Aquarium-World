@@ -30,21 +30,25 @@
           autocomplete="off">
       </div>
 
-      <h2 class="filter__heading" id="filter-heading">Filter by type</h2>
-      <div class="filter__controls" role="group" aria-labelledby="filter-heading">
-        <button type="button" class="filter__button is-active" data-filter-value="all" aria-pressed="true">All</button>
-        <button type="button" class="filter__button" data-filter-value="Tank exhibit" aria-pressed="false">Tank exhibits</button>
-        <button type="button" class="filter__button" data-filter-value="Interactive" aria-pressed="false">Interactive</button>
-        <button type="button" class="filter__button" data-filter-value="Hands-on" aria-pressed="false">Hands-on</button>
-        <button type="button" class="filter__button" data-filter-value="Talk" aria-pressed="false">Talks</button>
+      <div class="filter__groups" data-filter-groups>
+        <h2 class="filter__heading" id="filter-heading">Filter by type</h2>
+        <div class="filter__controls" role="group" aria-labelledby="filter-heading">
+          <button type="button" class="filter__button is-active" data-filter-value="all" aria-pressed="true">All</button>
+          <button type="button" class="filter__button" data-filter-value="Tank exhibit" aria-pressed="false">Tank exhibits</button>
+          <button type="button" class="filter__button" data-filter-value="Interactive" aria-pressed="false">Interactive</button>
+          <button type="button" class="filter__button" data-filter-value="Hands-on" aria-pressed="false">Hands-on</button>
+          <button type="button" class="filter__button" data-filter-value="Talk" aria-pressed="false">Talks</button>
+        </div>
+
+        <h2 class="filter__heading" id="zone-filter-heading">Filter by zone</h2>
+        <div class="filter__controls" role="group" aria-labelledby="zone-filter-heading">
+          <button type="button" class="filter__button is-active" data-zone-value="all" aria-pressed="true">All zones</button>
+          <% Object.entries(byZone).forEach(([zoneName, zone]) => { %>
+            <button type="button" class="filter__button" data-zone-value="<%= zone.slug %>" aria-pressed="false"><%= zoneName %></button>
+          <% }) %>
+        </div>
       </div>
-            <h2 class="filter__heading" id="zone-filter-heading">Filter by zone</h2>
-      <div class="filter__controls" role="group" aria-labelledby="zone-filter-heading">
-        <button type="button" class="filter__button is-active" data-zone-value="all" aria-pressed="true">All zones</button>
-        <% Object.entries(byZone).forEach(([zoneName, zone]) => { %>
-          <button type="button" class="filter__button" data-zone-value="<%= zone.slug %>" aria-pressed="false"><%= zoneName %></button>
-        <% }) %>
-      </div>
+
       <p class="filter__status" role="status" data-filter-status></p>
     </div>
 

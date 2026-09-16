@@ -1022,3 +1022,16 @@ a:hover { color: var(--deep); }
 }
 
 .link-button:hover { color: var(--deep); }
+
+.filter__groups {
+  overflow: hidden;
+  transition: opacity 250ms ease;
+}
+
+.filter__groups[hidden] {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .filter__groups { transition: none; }
+}
