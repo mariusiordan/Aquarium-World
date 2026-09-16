@@ -1,22 +1,21 @@
-(function () {
-  'use strict';
+const SPOTLIGHT_DURATION = 5000;
 
-  const SPOTLIGHT_DURATION = 5000;
+/**
+ * Removes the temporary emphasis from the opening times bar after 5 seconds.
+ */
+function initOpeningBar() {
   const bar = document.getElementById('opening-bar');
-
   if (!bar) return;
 
   window.setTimeout(() => {
     bar.classList.remove('is-spotlight');
   }, SPOTLIGHT_DURATION);
-})();
+}
 
 /**
  * Expands or collapses every FAQ answer at once.
  */
-(function () {
-  'use strict';
-
+function initFaqExpandAll() {
   const toggle = document.querySelector('[data-faq-expand]');
   if (!toggle) return;
 
@@ -28,24 +27,20 @@
     items.forEach((item) => { item.open = allOpen; });
     toggle.textContent = allOpen ? 'Close all answers' : 'Open all answers';
   });
-})();
+}
 
 /**
  * Moves focus to the error summary after a failed submission.
  */
-(function () {
-  'use strict';
-
+function initErrorSummaryFocus() {
   const summary = document.getElementById('error-summary');
   if (summary) summary.focus();
-})();
+}
 
 /**
  * Client-side validation for the contact form.
  */
-(function () {
-  'use strict';
-
+function initContactValidation() {
   const form = document.querySelector('.form');
   if (!form) return;
 
@@ -73,15 +68,15 @@
     }
   };
 
-  function clearError(field) {
+  const clearError = (field) => {
     const group = field.closest('.form__group');
     const existing = group.querySelector('.form__error');
     if (existing) existing.remove();
     group.classList.remove('has-error');
     field.removeAttribute('aria-invalid');
-  }
+  };
 
-  function showError(field, message) {
+  const showError = (field, message) => {
     const group = field.closest('.form__group');
     clearError(field);
 
@@ -93,9 +88,9 @@
     field.parentNode.insertBefore(error, field);
     group.classList.add('has-error');
     field.setAttribute('aria-invalid', 'true');
-  }
+  };
 
-  function validateField(field) {
+  const validateField = (field) => {
     const rule = rules[field.name];
     if (!rule) return true;
 
@@ -106,8 +101,10 @@
     }
     clearError(field);
     return true;
-  }
+  };
 
+  // Validate on blur so the user is told about a problem as they move on,
+  // rather than being interrupted mid-typing
   Object.keys(rules).forEach((name) => {
     const field = form.elements[name];
     if (field) {
@@ -130,4 +127,9 @@
       firstInvalid.focus();
     }
   });
-})();
+}
+
+initOpeningBar();
+initFaqExpandAll();
+initErrorSummaryFocus();
+initContactValidation();
