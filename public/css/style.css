@@ -875,7 +875,7 @@ a:hover { color: var(--deep); }
   max-width: 40rem;
 }
 
-.contact-alt h2 { font-size: 1.15rem;
+.contact-alt h2 { font-size: 1.15rem; margin-bottom: var(--space-sm); }
 
 .rockpool { margin-bottom: var(--space-xl); }
 
