@@ -1,4 +1,4 @@
-# Blue Harbour Aquarium
+# Aquarium World
 
 A promotional website for a fictional aquarium, built with Node.js, Express, EJS and SQLite.
 

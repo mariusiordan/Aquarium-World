@@ -1,4 +1,4 @@
--- Blue Harbour Aquarium — database schema
+-- Aquarium World — database schema
 -- Each zone is a themed marine area of the aquarium.
 -- Each experience belongs to exactly one zone (one-to-many).
 -- FAQs and contact enquiries are independent tables.

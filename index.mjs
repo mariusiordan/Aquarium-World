@@ -30,7 +30,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // Values made available to every template
 app.use((req, res, next) => {
-  res.locals.siteName = 'Blue Harbour Aquarium';
+  res.locals.siteName = 'Aquarium World';
   res.locals.openingTimes = { open: '9:00am', close: '6:00pm', days: 'Every day' };
   res.locals.currentPath = req.path;
   next();
@@ -41,7 +41,7 @@ app.get('/', async (req, res, next) => {
     const zones = await getAllZones();
     res.render('pages/home', {
       pageTitle: 'Home',
-      pageDescription: 'Explore four themed marine zones at Blue Harbour Aquarium, open every day from 9am to 6pm.',
+      pageDescription: 'Explore four themed marine zones at Aquarium World, open every day from 9am to 6pm.',
       zones
     });
   } catch (err) {
@@ -54,7 +54,7 @@ app.get('/zones', async (req, res, next) => {
     const zones = await getAllZones();
     res.render('pages/zones', {
       pageTitle: 'Zones',
-      pageDescription: 'Four themed marine zones at Blue Harbour Aquarium, from a sunlit coral reef to a deep sea trench.',
+      pageDescription: 'Four themed marine zones at Aquarium World, from a sunlit coral reef to a deep sea trench.',
       zones
     });
   } catch (err) {
@@ -95,7 +95,7 @@ app.get('/experiences', async (req, res, next) => {
 
     res.render('pages/experiences', {
       pageTitle: 'Experiences',
-      pageDescription: 'Tank exhibits, hands-on activities and daily talks across all four zones at Blue Harbour Aquarium.',
+      pageDescription: 'Tank exhibits, hands-on activities and daily talks across all four zones at Aquarium World.',
       byZone
     });
   } catch (err) {
@@ -129,7 +129,7 @@ app.get('/faq', async (req, res, next) => {
     const faqs = await getFaqsByCategory();
     res.render('pages/faq', {
       pageTitle: 'Frequently asked questions',
-      pageDescription: 'Opening times, accessibility, animal care and facilities at Blue Harbour Aquarium.',
+      pageDescription: 'Opening times, accessibility, animal care and facilities at Aquarium World.',
       faqs
     });
   } catch (err) {
@@ -189,7 +189,7 @@ function validateEnquiry(body) {
 app.get('/contact', (req, res) => {
   res.render('pages/contact', {
     pageTitle: 'Contact us',
-    pageDescription: 'Get in touch with Blue Harbour Aquarium about access requirements, school visits or general enquiries.',
+    pageDescription: 'Get in touch with Aquarium World about access requirements, school visits or general enquiries.',
     errors: {},
     values: { name: '', email: '', subject: '', message: '' },
     submitted: false
@@ -204,7 +204,7 @@ app.post('/contact', async (req, res, next) => {
     if (req.body.website) {
       return res.render('pages/contact', {
         pageTitle: 'Message sent',
-        pageDescription: 'Thank you for contacting Blue Harbour Aquarium.',
+        pageDescription: 'Thank you for contacting Aquarium World.',
         errors: {},
         values: { name: '', email: '', subject: '', message: '' },
         submitted: true
@@ -216,7 +216,7 @@ app.post('/contact', async (req, res, next) => {
     if (Object.keys(errors).length > 0) {
       return res.status(400).render('pages/contact', {
         pageTitle: 'Contact us',
-        pageDescription: 'Get in touch with Blue Harbour Aquarium.',
+        pageDescription: 'Get in touch with Aquarium World.',
         errors,
         values,
         submitted: false
@@ -227,7 +227,7 @@ app.post('/contact', async (req, res, next) => {
 
     res.render('pages/contact', {
       pageTitle: 'Message sent',
-      pageDescription: 'Thank you for contacting Blue Harbour Aquarium.',
+      pageDescription: 'Thank you for contacting Aquarium World.',
       errors: {},
       values: { name: '', email: '', subject: '', message: '' },
       submitted: true
@@ -259,11 +259,6 @@ app.get('/rockpool-explorer', (req, res) => {
 
 /**
  * JSON endpoint backing the experiences search.
- *
- * Returns data rather than markup, so the client decides how to render it.
- * All three parameters come from the query string and are user-controlled:
- * they are passed to the database as bound parameters and never concatenated
- * into SQL.
  */
 
 app.get('/api/experiences', async (req, res, next) => {
@@ -313,7 +308,7 @@ app.use((err, req, res, next) => {
 await initialiseDatabase();
 
 const server = app.listen(PORT, () => {
-  console.log(`Blue Harbour Aquarium running at http://localhost:${PORT}`);
+  console.log(`Aquarium World running at http://localhost:${PORT}`);
 });
 
 server.on('error', (err) => {

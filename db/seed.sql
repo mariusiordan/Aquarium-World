@@ -1,4 +1,4 @@
--- Seed data for Blue Harbour Aquarium.
+-- Seed data for Aquarium World.
 -- Content is original and written for this project. Image files are sourced
 -- from Pexels under the Pexels licence; attribution is recorded per row and
 -- surfaced on the credits page.
