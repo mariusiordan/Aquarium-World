@@ -22,3 +22,11 @@ different port:
 ```
 PORT=5050 node index.mjs
 ```
+## Live version
+
+A deployed copy is available at https://aquarium-world-2l3g.onrender.com
+
+The free hosting tier sleeps after inactivity, so the first request may take
+around 30 seconds while the server starts. Contact form submissions are not
+retained between restarts on the hosted copy, they are stored normally when
+the site is run locally.
